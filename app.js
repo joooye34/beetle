@@ -16,30 +16,31 @@ var ps = require('path');
 var fs = require('fs');
 
 var config = {
-  folders: ['../web/src/components','../web/src/apps','../web/src/lib'],
+  folders: ['../../web/src/components','../../web/src/apps','../../web/src/lib'],
   // folders: ['./lib'],
   formatList: '##.coffee##',
   spaceReg: /\s*\'*\"*/g,
   defineReg: /define[\s\S]*?->\n/,
   definePathReg: /\[([\s\S]*)\]/,
   defineNameReg: /[\s\S]*,[\s\S]*\(([\s\S]*)\)/,
-  defineDefaultNameReg: /^|\/|\./g,
   defineSplitReg: /\n|,/,
 
   requireTest: /=[\s\S]*require/,
   requireMatch: /require\(([\s\S]*)\)/,
   defineTest: /define/,
+  annotationTest: /^\s*#/,
 
   viewReg: /\w+view/i,
   modelReg: /\w+Model/i,
   collectionReg: /\w+collection/i,
   templateReg: /\w+template/i,
-  tailReg: /_\w+/i,
+  tailReg: /__GLOBAL__/,
 
   defineBracketReg: /define\([\s\S]*\[[\s\S]*\][\s\S]*/,
   defineNoBracketReg: /define [\s\S]*\[[\s\S]*\][\s\S]*/,
   defineStr: 'define((require, exports, module) ->',
-  defineStrNoBracket: 'define (require, exports, module) ->'
+  defineStrNoBracket: 'define (require, exports, module) ->',
+  defaultNameStr: '__GLOBAL__'
 }
 var options = {
   encoding: 'utf8'
@@ -95,8 +96,12 @@ function setStringLength(str, length){
 }
 function assembleRequire(name, path, nameLength){
   var list = [];
+
   list.push(setStringLength('', 2));
-  if(!name) name = path.replace(config.defineDefaultNameReg, '_');
+  if(!name){
+    name = config.defaultNameStr + path;
+    name = name.replace(/\/|\./g,'_');
+  }
   list.push(setStringLength(name, nameLength));
   list.push(' = ');
   list.push('require(\''+path+'\')');
@@ -107,6 +112,7 @@ function parseChar(c){
   if(/[^a-zA-Z]/.test(c)) return '1' + c;
   else if(/[a-z]/.test(c)) return '2' + c;
   else if(/[A-Z]/.test(c)) return '3' + c;
+  return c;
 }
 function compare(a, b){
   var aBig = -1;
@@ -138,7 +144,7 @@ function compare(a, b){
 }
 function sortRequire(list){
   list.sort();
-  if(list.length > 5){
+  if(list.length > 8){
     var result = [];
     var utils = [];
     var models = [];
@@ -281,7 +287,7 @@ function splitRequire(list){
       re.headers.push(line);
     }else if(i>end){
       re.tails.push(line);
-    }else if(config.requireTest.test(line)){
+    }else if(config.requireTest.test(line) && !config.annotationTest.test(line)){
       re.requires.push(line);
     }
   }
