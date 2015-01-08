@@ -40,7 +40,8 @@ var config = {
   defineNoBracketReg: /define [\s\S]*\[[\s\S]*\][\s\S]*/,
   defineStr: 'define((require, exports, module) ->',
   defineStrNoBracket: 'define (require, exports, module) ->',
-  defaultNameStr: '__GLOBAL__'
+  defaultNameStr: '__GLOBAL__',
+  groupNumber: 8
 }
 var options = {
   encoding: 'utf8'
@@ -115,9 +116,9 @@ function parseChar(c){
   return c;
 }
 function compare(a, b){
-  var aBig = -1;
+  var aBig = 1;
   var abEqual = 0;
-  var bBig = 1;
+  var bBig = -1;
 
   if(!a && !b){
     return abEqual;
@@ -128,8 +129,7 @@ function compare(a, b){
   }
   a = a + "";
   b = b + "";
-  var i,result = 0;
-
+  var i = 0;
   for(;i<a.length;i++){
     if(i >= b.length) return aBig;
     var a_char = parseChar(a[i]);
@@ -143,8 +143,8 @@ function compare(a, b){
   return abEqual;
 }
 function sortRequire(list){
-  list.sort();
-  if(list.length > 8){
+  list.sort(compare);
+  if(list.length > config.groupNumber){
     var result = [];
     var utils = [];
     var models = [];
