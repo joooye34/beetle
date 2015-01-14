@@ -101,7 +101,7 @@ function assembleRequire(name, path, nameLength){
   list.push(setStringLength('', 2));
   if(!name){
     name = config.defaultNameStr + path;
-    name = name.replace(/\/|\./g,'_');
+    name = name.replace(/\W/g,'_');
   }
   list.push(setStringLength(name, nameLength));
   list.push(' = ');
