@@ -1,5 +1,5 @@
-var replaceDefine = require('define-replace');
-var formatRequires = require('format-requires');
+var replaceDefine = require('./define/replace');
+var formatRequires = require('./define/format');
 
 var splitStr = '\n';
 function Bettle(fileStr){
@@ -22,11 +22,8 @@ Bettle.prototype = {
     this.fileList = formatRequires(this.fileList, options);
     return this;
   },
-  getFileLIst: function(){
-    return this.fileList;
-  }
   getFileString: function(){
     return this.fileList.join(splitStr);
   }
 };
-exports = Bettle;
+module.exports = Bettle;

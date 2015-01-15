@@ -1,0 +1,64 @@
+#!/usr/bin/env node
+var ps = require('path');
+var fs = require('fs');
+var Beetle = require('../src/Beetle')
+
+var argv = require("minimist")(process.argv.slice(2), {
+  alias: {
+    'target': 't',
+    'deep': 'd',
+    'path': 'p'
+  },
+  default: {
+    'dir': process.cwd()
+  }
+});
+
+function formatFile(path, target){
+  if(ps.extname(path).toLowerCase() != '.coffee') return;
+
+  console.log('start format file:' + path);
+  var fileStr = fs.readFileSync(path, 'utf8');
+  var beetle = new Beetle(fileStr);
+  fileStr = beetle.replaceDefine().formatRequires().getFileString();
+
+  if(!target) target = path;
+  fs.writeFileSync(target, fileStr, 'utf8');
+  console.log('end format file:' + path);
+}
+function formatFolder(path, deep){
+  if(deep > 0){
+    console.log('start format folder:' + path);
+    var files = fs.readdirSync(path);
+    for(var i=0; i<files.length;i++){
+      var childPath = path + '/' + files[i];
+      var stat = fs.lstatSync(childPath);
+      if(stat.isDirectory()){
+        formatFolder(childPath, deep - 1);
+      }else{
+        formatFile(childPath);
+      }
+    }
+    console.log('end format folder:' + path);
+  }
+}
+function format(path, target, deep){
+  var stat = fs.lstatSync(path);
+  if(stat.isDirectory()){
+    formatFolder(path, deep);
+  }else{
+    formatFile(path, target);
+  }
+}
+
+var path = argv.dir;
+if(argv.path) path = argv.dir + '/' + argv.path;
+
+var target = '';
+if(argv.target) target = argv.dir + '/' + argv.target;
+
+var deep = 1;
+if(argv.deep === true) deep = Infinity
+else if(argv.deep) deep = argv.deep;
+
+format(path, target, deep);
