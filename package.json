@@ -1,7 +1,7 @@
 {
   "name": "beetle",
   "description": "the beetle work hard to format js",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "main":"./lib/beetle",
   "bin": {
     "beetle": "./bin/beetle"
@@ -27,8 +27,8 @@
   "engines": {
     "node": ">= 0.8.0"
   },
-  "devDependencies": {
-    "minimist": "~0.1.0"
+  "dependencies": {
+      "commander": "2.0.0"
   },
   "keywords": [
     "beetle",

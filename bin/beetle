@@ -2,17 +2,27 @@
 var ps = require('path');
 var fs = require('fs');
 var Beetle = require('../lib/beetle')
+var argv = require('commander');
+var dir = process.cwd();
 
-var argv = require("minimist")(process.argv.slice(2), {
-  alias: {
-    'target': 't',
-    'deep': 'd',
-    'path': 'p'
-  },
-  default: {
-    'dir': process.cwd()
-  }
-});
+argv.version(require('../package.json').version)
+    .usage('[options] <file ...>')
+    .option('-v, --version', 'output the version number')
+    .option('-p, --path <path>', 'fiel or folder path to format', parsePath, dir)
+    .option('-d, --deep [value]', 'folder deep to format', parseDeep, 1)
+    .option('-t, --target <path>', 'target file to save', parsePath, dir)
+    .parse(process.argv);
+
+format(argv.path, argv.target, argv.deep);
+
+function parsePath(val){
+  return dir + '/' + val;
+}
+function parseDeep(val){
+  var i = parseInt(val);
+  if(i > 0) return i;
+  else return Infinity;
+}
 
 function formatFile(path, target){
   if(ps.extname(path).toLowerCase() != '.coffee') return;
@@ -50,15 +60,3 @@ function format(path, target, deep){
     formatFile(path, target);
   }
 }
-
-var path = argv.dir;
-if(argv.path) path = argv.dir + '/' + argv.path;
-
-var target = '';
-if(argv.target) target = argv.dir + '/' + argv.target;
-
-var deep = 1;
-if(argv.deep === true) deep = Infinity
-else if(argv.deep) deep = argv.deep;
-
-format(path, target, deep);
