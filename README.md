@@ -1,3 +1,3 @@
 # beetle
 
-> the beetle work hard to formate js
+> the beetle work hard to formate coffee
