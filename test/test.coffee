@@ -1,31 +1,64 @@
-define (require, exports, module) ->
+define [
+  'teambition'
+  'view'
+  'lib/socket'
+  'lib/window/index'
+  'lib/notification/index'
+  'views/core/float/index'
+  'views/portal/index'
+  'views/organization/organization/index'
+  'views/wall/wall/index'
+  'views/board/board/index'
+  'views/home/home/index'
+  'views/library/library/index'
+  'views/events/events/index'
+  'views/review/review/index'
+  'views/tag/tags/index'
+  'views/bookkeeping/bookkeeping/index'
+  'views/core/navigation/index'
+  'views/member/member-bar/index'
+  'views/core/app-switcher/index'
+  'views/inbox/inbox/index'
+  'views/core/markdown-helper/index'
+  'views/work/works-background-uploader/index'
+  # collection
+  'collections/messages'
+  'collections/members'
+  'collections/projects'
+  'collections/tags'
+  'thenjs'
+  'hotkey'
+  'essage'
+], (
+  teambition
+  View
+  Socket
+  WindowView
+  Notification
+  FloatView
+  PortalView
+  OrganizationView
+  WallView
+  BoardView
+  HomeView
+  LibraryView
+  EventsView
+  ReviewView
+  TagView
+  BookkeepingView
+  NavigationView
+  MemberBarView
+  AppSwitcherView
+  InboxView
+  MarkdownHelperView
+  WorkBgUploaderView
+  # collection
+  MessagesCollection
+  MembersCollection
+  ProjectsCollection
+  TagsCollection
+  Thenjs
+  Hotkey
+) ->
 
-  teambition         = require('teambition')
-  Hotkey             = require('hotkey')
-  Notification       = require('lib/notification/index')
-  Socket             = require('lib/socket')
-  Thenjs             = require('thenjs')
-  View               = require('view')
-  MembersCollection  = require('collections/members')
-  MessagesCollection = require('collections/messages')
-  ProjectsCollection = require('collections/projects')
-  TagsCollection     = require('collections/tags')
-  AppSwitcherView    = require('views/core/app-switcher/index')
-  BoardView          = require('views/board/board/index')
-  BookkeepingView    = require('views/bookkeeping/bookkeeping/index')
-  EventsView         = require('views/events/events/index')
-  FloatView          = require('views/core/float/index')
-  HomeView           = require('views/home/home/index')
-  InboxView          = require('views/inbox/inbox/index')
-  LibraryView        = require('views/library/library/index')
-  MarkdownHelperView = require('views/core/markdown-helper/index')
-  MemberBarView      = require('views/member/member-bar/index')
-  NavigationView     = require('views/core/navigation/index')
-  OrganizationView   = require('views/organization/organization/index')
-  PortalView         = require('views/portal/index')
-  ReviewView         = require('views/review/review/index')
-  TagView            = require('views/tag/tags/index')
-  WallView           = require('views/wall/wall/index')
-  WindowView         = require('lib/window/index')
-  WorkBgUploaderView = require('views/work/works-background-uploader/index')
-  G_essage           = require('essage')
+
