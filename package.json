@@ -2,6 +2,10 @@
   "name": "beetle",
   "description": "the beetle work hard to format js",
   "version": "0.1.0",
+  "main":"./lib/beetle",
+  "bin": {
+    "beetle": "./bin/beetle"
+  },
   "homepage": "https://github.com/suyu34/beetle",
   "author": {
     "name": "suyu34",
