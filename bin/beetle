@@ -5,9 +5,8 @@ var Beetle = require('../lib/beetle')
 var argv = require('commander');
 var dir = process.cwd();
 
-argv.version(require('../package.json').version)
-    .usage('[options] <file ...>')
-    .option('-v, --version', 'output the version number')
+argv.usage('[options] <file ...>')
+    .option('-v, --version', 'output the version number', require('../package.json').version)
     .option('-p, --path <path>', 'fiel or folder path to format', parsePath, dir)
     .option('-d, --deep [value]', 'folder deep to format', parseDeep, 1)
     .option('-t, --target <path>', 'target file to save', parsePath, dir)
