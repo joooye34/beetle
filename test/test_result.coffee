@@ -27,10 +27,9 @@ define (require, exports, module) ->
   PortalView         = require('views/portal/index')
   ReviewView         = require('views/review/review/index')
   TagView            = require('views/tag/tags/index')
+  WindowView         = require('lib/window/index')
   WallView           = require('views/wall/wall/index')
-
   WorkBgUploaderView = require('views/work/works-background-uploader/index')
 
   G_essage           = require('essage')
-  WindowView         = require('lib/window/index')
 

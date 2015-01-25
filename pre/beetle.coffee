@@ -4,23 +4,29 @@ replaceDefine = require('./define/replace')
 formatRequires = require('./define/format')
 
 splitStr = '\n'
-Bettle = (fileStr) ->
-  this.translateFileStringToList(fileStr);
+class Bettle
+  constructor: (fileStr) ->
+    if fileStr
+      fileStr = fileStr + "";
+      @fileList = fileStr.split(splitStr)
+    return this
 
-Bettle.prototype =
   fileList: []
   translateFileStringToList: (fileStr) ->
     if fileStr
       fileStr = fileStr + "";
-      this.fileList = fileStr.split(splitStr)
+      @fileList = fileStr.split(splitStr)
     return this
+
   replaceDefine: (options) ->
-    this.fileList = replaceDefine(this.fileList, options)
+    @fileList = replaceDefine(@fileList, options)
     return this
+
   formatRequires: (options) ->
-    this.fileList = formatRequires(this.fileList, options)
+    @fileList = formatRequires(@fileList, options)
     return this
+
   getFileString: ->
-    return this.fileList.join(splitStr)
+    return @fileList.join(splitStr)
 
 module.exports = Bettle;

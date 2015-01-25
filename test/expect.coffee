@@ -4,10 +4,13 @@ define (require, exports, module) ->
   Hotkey             = require('hotkey')
   Notification       = require('lib/notification/index')
   Socket             = require('lib/socket')
-  View               = require('view')
   Thenjs             = require('thenjs')
+  View               = require('view')
 
-
+  MembersCollection  = require('collections/members')
+  MessagesCollection = require('collections/messages')
+  ProjectsCollection = require('collections/projects')
+  TagsCollection     = require('collections/tags')
 
   AppSwitcherView    = require('views/core/app-switcher/index')
   BoardView          = require('views/board/board/index')
@@ -25,14 +28,8 @@ define (require, exports, module) ->
   ReviewView         = require('views/review/review/index')
   TagView            = require('views/tag/tags/index')
   WallView           = require('views/wall/wall/index')
-
+  WindowView         = require('lib/window/index')
   WorkBgUploaderView = require('views/work/works-background-uploader/index')
 
   G_essage           = require('essage')
-  WindowView         = require('lib/window/index')
-
-  MembersCollection  = require('collections/members')
-  MessagesCollection = require('collections/messages')
-  ProjectsCollection = require('collections/projects')
-  TagsCollection     = require('collections/tags')
 

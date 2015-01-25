@@ -13,6 +13,10 @@ group = [
 ]
 
 class Formator
+  constructor: (fileList, options) ->
+    @fileList = fileList
+    @[i] = item for i, item of options
+
   fileList: []
   start: -1
   end: -1
@@ -22,14 +26,12 @@ class Formator
   groupNumber: 6
   maxNameLength: 0
 
-  constructor: (fileList, options) ->
-    @fileList = fileList
-    @[i] = item for i, item of options
-
   initStartAndEnd: ->
     list = @fileList
     preSpace = -1
     for line, i in list
+      continue if util.isSpaceLine(line) or util.isAnnotation(line)
+
       @start = i if @start < 0 and requireReg.test(line)
       if @start > 0
         match = line.match(requireNameReg)
@@ -38,7 +40,7 @@ class Formator
         @maxNameLength = nameStr.length if nameStr.length > this.maxNameLength
 
       @end = i + 1
-      break if this.start >= 0 and not requireReg.test(line)
+      break if @start >= 0 and not requireReg.test(line)
     return this
 
   initRequires: ->
@@ -113,6 +115,7 @@ class Formator
       for line in requires
         continue if util.isSpaceLine(line) or util.isAnnotation(line)
 
+        isNotOther = false
         for reg in group
           continue unless reg.test(line)
           isNotOther = true
@@ -131,7 +134,7 @@ class Formator
 
   format: ->
     @initStartAndEnd()
-    return this.fileList if @start < 0
+    return @fileList if @start < 0
 
     @initRequires().space().align().sort()
     return @headers.concat(@requires).concat(@tails);

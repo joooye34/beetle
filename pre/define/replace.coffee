@@ -18,28 +18,28 @@ noWrapperStr = 'define (require, exports, module) ->'
 withWrapperStr = 'define((require, exports, module) ->'
 
 class Formator
+  constructor: (fileList, options) ->
+    @fileList = fileList
+    @[i] = item for i, item of options
+
   fileList: []
   requires: []
   start: -1
   end: -1
   hasWrapper: false
-  constructor: (fileList, options) ->
-    @fileList = fileList
-    @[i] = item for i, item of options
-
   initStartAndEnd: ->
     list = @fileList;
-    for line in list
+    for line, i in list
       continue if util.isSpaceLine(line) or util.isAnnotation(line)
       if @start < 0
         if startNoWrapperReg.test(line)
-          this.hasWrapper = false
-          this.start = i
+          @hasWrapper = false
+          @start = i
         else if startWithWrapperReg.test(line)
-          this.hasWrapper = true
-          this.start = i
+          @hasWrapper = true
+          @start = i
 
-      this.end = i + 1;
+      @end = i + 1;
       break if endReg.test(line)
     return this
 
@@ -66,9 +66,12 @@ class Formator
 
     requires = []
     for pathStr, i in pathList
-      nameStr = nameList[i] if i < nameList.length
+      if i < nameList.length
+        nameStr = nameList[i]
+      else
+        nameStr = ''
       nameStr = globalFLag + pathStr.replace(specialCharReg, specialCharStr) unless nameStr
-      equires.push("  #{nameStr} = require('#{pathStr}')")
+      requires.push("  #{nameStr} = require('#{pathStr}')")
 
     @requires = requires
     return this
@@ -81,8 +84,10 @@ class Formator
     headers = list.slice(0, @start)
     requires = @requires
     tails = list.slice(@end)
-    if(@hasWrapper) headers.push(withWrapperStr)
-    else headers.push(noWrapperStr)
+    if @hasWrapper
+      headers.push(withWrapperStr)
+    else
+      headers.push(noWrapperStr)
     return headers.concat(requires).concat(tails)
 
 module.exports = (fileList, options) ->
