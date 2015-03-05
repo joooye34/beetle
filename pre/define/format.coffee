@@ -33,14 +33,15 @@ class Formator
       continue if util.isSpaceLine(line) or util.isAnnotation(line)
 
       @start = i if @start < 0 and requireReg.test(line)
-      if @start > 0
+      if requireReg.test(line)
         match = line.match(requireNameReg)
-        nameStr = ''
-        nameStr = match[1] || '' if match
-        @maxNameLength = nameStr.length if nameStr.length > this.maxNameLength
+        nameStr = match[1] || ''
+        nameStr = nameStr.trim()
+        @maxNameLength = nameStr.length if nameStr.length > @maxNameLength
 
       @end = i
       break if @start >= 0 and not requireReg.test(line)
+
     return this
 
   initRequires: ->
@@ -65,11 +66,14 @@ class Formator
       match = line.match(requireNameReg)
       if match
         nameStr = match[1] or ''
+        nameStr = nameStr.trim()
         tailStr = match[2] or ''
+        tailStr = tailStr.trim()
         i = nameStr.length
         while(i++ < @maxNameLength)
           nameStr += ' '
-        alignList.push(nameStr + tailStr)
+        alignList.push("  #{nameStr} #{tailStr}")
+    @requires = alignList
     return this;
 
   compare: (a, b) ->
