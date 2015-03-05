@@ -39,7 +39,7 @@ class Formator
         nameStr = match[1] || '' if match
         @maxNameLength = nameStr.length if nameStr.length > this.maxNameLength
 
-      @end = i + 1
+      @end = i
       break if @start >= 0 and not requireReg.test(line)
     return this
 

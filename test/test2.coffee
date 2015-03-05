@@ -36,3 +36,16 @@ define (require, exports, module) ->
   ProjectsCollection = require('collections/projects')
   TagsCollection     = require('collections/tags')
 
+  class BaseModel extends Backbone.Model
+    idAttribute: '_id'
+    listened: false
+
+    constructor: (attrs, options = {}) ->
+      options.parse =  true
+      super(attrs, options)
+
+    initialize: (attrs, options) ->
+      @listen()
+      Warehouse.bindByMatrix(@) unless @idAttribute isnt '_id' or options?.bindByMatrix is false
+      return this
+
