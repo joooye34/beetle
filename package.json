@@ -1,7 +1,7 @@
 {
   "name": "beetle",
   "description": "the beetle work hard to format js",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "main":"./lib/beetle",
   "bin": {
     "beetle": "./bin/beetle"
