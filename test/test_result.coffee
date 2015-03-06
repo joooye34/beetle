@@ -46,3 +46,4 @@ define (require, exports, module) ->
       Warehouse.bindByMatrix(@) unless @idAttribute isnt '_id' or options?.bindByMatrix is false
       return this
 
+

@@ -22,7 +22,7 @@ define (require, exports, module) ->
   NavigationView     = require('views/core/navigation/index')
   OrganizationView   = require('views/organization/organization/index')
   PortalView         = require('views/portal/index')
-  ReviewView                  = require('views/review/review/index')
+  ReviewView             = require('views/review/review/index')
   TagView            = require('views/tag/tags/index')
   WallView           = require('views/wall/wall/index')
 

@@ -1,6 +1,5 @@
 node_modules
 test
+pre
 
-.npmignore
-.gitignore
 *.log
