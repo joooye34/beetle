@@ -16,5 +16,10 @@ util =
     if match
       return match[0]
     return ''
+  getRegExp: (str = '') ->
+    list = str.split(' :: ')
+    regStr = list[0] or ''
+    regTail = list[1] or ''
+    return new RexExp(regStr, regTail)
 
 module.exports = util

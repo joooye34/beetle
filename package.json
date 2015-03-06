@@ -1,8 +1,8 @@
 {
   "name": "beetle",
   "description": "the beetle work hard to format js",
-  "version": "0.1.6",
-  "main":"./lib/beetle",
+  "version": "0.1.7",
+  "main": "./lib/beetle",
   "bin": {
     "beetle": "./bin/beetle"
   },
@@ -34,5 +34,15 @@
     "beetle",
     "node",
     "format"
+  ],
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-coffee": "^2.3.1",
+    "gulp-mocha": "^2.0.0",
+    "mocha": "^2.1.0"
+  },
+  "ignore": [
+    "test",
+    "gulpfile.js"
   ]
 }

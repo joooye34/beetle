@@ -34,8 +34,8 @@ class Formator
 
       @start = i if @start < 0 and requireReg.test(line)
       if requireReg.test(line)
-        match = line.match(requireNameReg)
-        nameStr = match[1] || ''
+        match = line.split('=')
+        nameStr = match[0] || ''
         nameStr = nameStr.trim()
         @maxNameLength = nameStr.length if nameStr.length > @maxNameLength
 
@@ -63,16 +63,16 @@ class Formator
     list = @requires
     alignList = []
     for line in list
-      match = line.match(requireNameReg)
-      if match
-        nameStr = match[1] or ''
+      match = line.split('=')
+      if match.length is 2
+        nameStr = match[0] or ''
         nameStr = nameStr.trim()
-        tailStr = match[2] or ''
+        tailStr = match[1] or ''
         tailStr = tailStr.trim()
         i = nameStr.length
         while(i++ < @maxNameLength)
           nameStr += ' '
-        alignList.push("  #{nameStr} #{tailStr}")
+        alignList.push("  #{nameStr} = #{tailStr}")
     @requires = alignList
     return this;
 

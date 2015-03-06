@@ -6,15 +6,17 @@ var argv = require('commander');
 var dir = process.cwd();
 
 argv.usage('[options] <file ...>')
-    .option('-v, --version', 'output the version number', require('../package.json').version)
-    .option('-p, --path <path>', 'fiel or folder path to format', parsePath, dir)
+    .version(require('../package.json').version)
+    // .option('-v, --version', 'output the version number', require('../package.json').version)
+    .option('-p, --path <path>', 'file or folder path to format', parsePath, dir)
+    // .option('-o, --output <output>', 'target file to save', parsePath, dir)
     .option('-d, --deep [value]', 'folder deep to format', parseDeep, 1)
-    .option('-t, --target <path>', 'target file to save', parsePath, dir)
     .parse(process.argv);
 
-format(argv.path, argv.target, argv.deep);
+format(argv.path, argv.path, argv.deep);
 
 function parsePath(val){
+  if(val[0] == '/') return val;
   return dir + '/' + val;
 }
 function parseDeep(val){
